@@ -8,19 +8,23 @@ from main.equation import Equation
 # x = x * 2 * 7
 # print(x)
 #
-term1 = SimpleTerm(TermTypes.EXPONENTIAL, 2, -1)
+term1 = SimpleTerm(TermTypes.EXPONENTIAL, 3, 2)
 term2 = SimpleTerm(TermTypes.POLYNOMIAL, -5, 2)
-term4 = SimpleTerm(TermTypes.COSINE, -56, 5)
+term4 = MultiplyTerm([SimpleTerm(TermTypes.COSINE, 1, 2),
+                      SimpleTerm(TermTypes.POLYNOMIAL, 1, 1)]).simplify()
+term5 = SimpleTerm(TermTypes.SINE, 3, 2)
 # print(term1)
 # print(term2)
 # print(term5)
 # print(term5.derivative())
 # print(term5.simplify())
 
-eqn1 = Equation(coef_list=[1, -3, -4], term_list=[term1])
+eqn1 = Equation(coef_list=[1, 0, 1], term_list=[term4, term5])
 # eqn1 = Equation(coef_list=[1, 1, 1], term_list=[term2])
 eqn1.init_solutions()
 print(eqn1)
 
 eqn1.solve_all_specific()
 print(eqn1.specific_solutions[0])
+
+eqn1.print_solutions()

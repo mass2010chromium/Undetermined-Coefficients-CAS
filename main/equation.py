@@ -116,7 +116,7 @@ class Equation:
         elif bsq_4ac < 0:
             # Periodic solution
             b_2a = -b / (2 * a)
-            freq_term = math.sqrt(-bsq_4ac)
+            freq_term = math.sqrt(-bsq_4ac) / (2 * a)
             self.homogenous_solutions[0] = MultiplyTerm([SimpleTerm(TermTypes.EXPONENTIAL,
                                                                     VariedCoefficient(**{Equation.C1: 1}), b_2a),
                                                          SimpleTerm(TermTypes.SINE, 1, freq_term)])
@@ -191,7 +191,8 @@ class Equation:
             raise ValueError("Invalid term type??")
         return form.simplify()
 
-
+    def print_solutions(self):
+        print(AddTerm(self.homogenous_solutions + self.specific_solutions).simplify())
 
     @staticmethod
     def solve_linear_equations(equations, names):
@@ -243,7 +244,8 @@ class Equation:
         for i in range(n-1, -1, -1):
             term_sums = 0
             for j in range(n-1, i, -1):
-                term_sums += var_values[names[j]] * equations[i][names[j]]
+                if names[j] in equations[i]:
+                    term_sums += var_values[names[j]] * equations[i][names[j]]
             term_sums += equations[i][VariedCoefficient.CONST]
             var_values[names[i]] = -term_sums
         # print(var_values)
